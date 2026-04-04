@@ -100,7 +100,7 @@ class _RecoveryScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     'Your composite score is ${delta.compositeScore}. '
-                    'These exercises help your nervous system recover from high-stress on-call shifts.',
+                    'These exercises help your nervous system recover from high-stress incident response.',
                     style: TextStyle(
                       fontSize: 13,
                       color: ObsTheme.textSecondaryOf(context),
