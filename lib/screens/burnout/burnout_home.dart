@@ -4,6 +4,7 @@ import '../../services/mock_rootly_service.dart';
 import 'burnout_dashboard.dart';
 import 'incident_timeline.dart';
 import 'circuit_breaker.dart';
+import 'wearable_connect.dart';
 import '../breathe/breathe_screen.dart';
 import '../journal/journal_screen.dart';
 
@@ -23,6 +24,7 @@ class _BurnoutHomeState extends State<BurnoutHome> {
       const BurnoutDashboard(),
       const IncidentTimeline(),
       const CircuitBreaker(),
+      const WearableConnect(),
       const _RecoveryScreen(),
     ];
 
@@ -48,6 +50,11 @@ class _BurnoutHomeState extends State<BurnoutHome> {
             icon: Icon(Icons.shield_outlined, color: ObsTheme.textSecondaryOf(context)),
             selectedIcon: Icon(Icons.shield, color: ObsTheme.critical),
             label: 'Breaker',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.watch_outlined, color: ObsTheme.textSecondaryOf(context)),
+            selectedIcon: Icon(Icons.watch, color: ObsTheme.safeOf(context)),
+            label: 'Wearable',
           ),
           NavigationDestination(
             icon: Icon(Icons.self_improvement_outlined, color: ObsTheme.textSecondaryOf(context)),

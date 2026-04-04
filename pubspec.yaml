@@ -37,3 +37,9 @@ flutter:
           weight: 700
         - asset: fonts/Poppins-Light.ttf
           weight: 300
+    - family: RubikOne
+      fonts:
+        - asset: fonts/RubikOne-Regular.ttf
+    - family: Telegraf
+      fonts:
+        - asset: fonts/SpaceGrotesk-Variable.ttf

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Observability theme — supports both dark and light modes.
 class ObsTheme {
+  // ──── BRAND PALETTE ────
+  static const Color brandText = Color(0xFF11363E);
+  static const Color brandBg = Color(0xFFCCE7E2);
+  static const Color brandSurface = Color(0xFFFFFFFF);
+
   // ──── DARK MODE PALETTE ────
   static const Color bg = Color(0xFF0D0D0D);
   static const Color surface = Color(0xFF1A1A1A);
@@ -9,18 +13,24 @@ class ObsTheme {
   static const Color border = Color(0xFF333333);
 
   // ──── LIGHT MODE PALETTE ────
-  static const Color bgLight = Color(0xFFF8F9FA);
-  static const Color surfaceLt = Colors.white;
-  static const Color surfaceLightLt = Color(0xFFF0F2F5);
-  static const Color borderLt = Color(0xFFE0E0E0);
+  static const Color bgLight = brandBg;
+  static const Color surfaceLt = brandSurface;
+  static const Color surfaceLightLt = Color(0xFFE0F0EC);
+  static const Color borderLt = Color(0xFFB3D4CC);
 
-  // ──── SHARED ACCENT COLORS ────
-  static const Color safe = Color(0xFF00C853);        // Green (works on both)
-  static const Color safeDark = Color(0xFF00FF41);     // Matrix green (dark only)
-  static const Color warning = Color(0xFFFFAB00);      // Amber
-  static const Color critical = Color(0xFFFF3E3E);     // Red
-  static const Color info = Color(0xFF2196F3);         // Blue
-  static const Color muted = Color(0xFF666666);
+  // ──── ACCENT COLORS ────
+  static const Color safe = Color(0xFF11363E);
+  static const Color safeDark = Color(0xFF00FF41);
+  static const Color warning = Color(0xFFE8A317);
+  static const Color critical = Color(0xFFD94444);
+  static const Color info = Color(0xFF2B7A8E);
+  static const Color muted = Color(0xFF6B8F8A);
+
+  // ──── HIGHLIGHT COLORS (for crucial info) ────
+  static const Color highlightUrgent = Color(0xFFFF6B6B);
+  static const Color highlightPositive = Color(0xFF2ECC71);
+  static const Color highlightWarn = Color(0xFFF39C12);
+  static const Color highlightInfo = Color(0xFF3498DB);
 
   // ──── TEXT (dark) ────
   static const Color textPrimary = Color(0xFFE0E0E0);
@@ -28,9 +38,13 @@ class ObsTheme {
   static const Color textMuted = Color(0xFF555555);
 
   // ──── TEXT (light) ────
-  static const Color textPrimaryLt = Color(0xFF1A1A2E);
-  static const Color textSecondaryLt = Color(0xFF636E72);
-  static const Color textMutedLt = Color(0xFFAAAAAA);
+  static const Color textPrimaryLt = brandText;
+  static const Color textSecondaryLt = Color(0xFF3D6B63);
+  static const Color textMutedLt = Color(0xFF7FA39B);
+
+  // ──── FONTS ────
+  static const String titleFont = 'RubikOne';
+  static const String bodyFont = 'Telegraf';
 
   // ──── THEME-AWARE HELPERS ────
   static bool isDark(BuildContext context) =>
@@ -48,8 +62,8 @@ class ObsTheme {
   static Color tierColor(int score) {
     if (score >= 75) return critical;
     if (score >= 50) return warning;
-    if (score >= 25) return const Color(0xFFFF9800);
-    return safe;
+    if (score >= 25) return highlightWarn;
+    return highlightPositive;
   }
 
   static String tierLabel(int score) {
@@ -63,7 +77,7 @@ class ObsTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      fontFamily: 'Poppins',
+      fontFamily: bodyFont,
       scaffoldBackgroundColor: bg,
       colorScheme: const ColorScheme.dark(
         primary: safeDark,
@@ -79,9 +93,9 @@ class ObsTheme {
         elevation: 0,
         centerTitle: false,
         titleTextStyle: TextStyle(
-          fontFamily: 'Poppins',
+          fontFamily: titleFont,
           fontSize: 18,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
           color: textPrimary,
         ),
         iconTheme: IconThemeData(color: textPrimary),
@@ -101,7 +115,7 @@ class ObsTheme {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: const TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: bodyFont,
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -112,9 +126,9 @@ class ObsTheme {
         indicatorColor: safeDark.withValues(alpha: 0.15),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return const TextStyle(fontSize: 11, color: safeDark, fontFamily: 'Poppins');
+            return const TextStyle(fontSize: 11, color: safeDark, fontFamily: bodyFont);
           }
-          return const TextStyle(fontSize: 11, color: textSecondary, fontFamily: 'Poppins');
+          return const TextStyle(fontSize: 11, color: textSecondary, fontFamily: bodyFont);
         }),
       ),
     );
@@ -124,7 +138,7 @@ class ObsTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      fontFamily: 'Poppins',
+      fontFamily: bodyFont,
       scaffoldBackgroundColor: bgLight,
       colorScheme: ColorScheme.light(
         primary: safe,
@@ -140,9 +154,9 @@ class ObsTheme {
         elevation: 0,
         centerTitle: false,
         titleTextStyle: const TextStyle(
-          fontFamily: 'Poppins',
+          fontFamily: titleFont,
           fontSize: 18,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
           color: textPrimaryLt,
         ),
         iconTheme: const IconThemeData(color: textPrimaryLt),
@@ -162,7 +176,7 @@ class ObsTheme {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: const TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: bodyFont,
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -173,9 +187,9 @@ class ObsTheme {
         indicatorColor: safe.withValues(alpha: 0.12),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return const TextStyle(fontSize: 11, color: safe, fontFamily: 'Poppins');
+            return const TextStyle(fontSize: 11, color: safe, fontFamily: bodyFont);
           }
-          return TextStyle(fontSize: 11, color: textSecondaryLt, fontFamily: 'Poppins');
+          return TextStyle(fontSize: 11, color: textSecondaryLt, fontFamily: bodyFont);
         }),
       ),
     );

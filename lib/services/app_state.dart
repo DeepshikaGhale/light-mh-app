@@ -9,7 +9,7 @@ class AppState extends ChangeNotifier {
   List<String> selectedConcerns = [];
 
   // Theme
-  ThemeMode themeMode = ThemeMode.dark; // default dark for observability look
+  ThemeMode themeMode = ThemeMode.light; // default light with brand colors
   bool get isDarkMode => themeMode == ThemeMode.dark;
 
   void toggleTheme() {
