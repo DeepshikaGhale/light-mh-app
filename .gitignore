@@ -46,3 +46,5 @@ app.*.map.json
 
 # Node
 backend/node_modules/
+config.bat
+node_modules

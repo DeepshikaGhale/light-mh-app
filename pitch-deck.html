@@ -193,35 +193,126 @@
   <section class="slide" data-title="Architecture">
     <span class="tag tag-green">HOW IT WORKS</span>
     <h2>System Architecture</h2>
-    <div class="arch-layer">
-      <div class="arch-box" style="border-color:rgba(33,150,243,0.3);">
-        <h4 style="color:#2196F3;">Smartwatch (DREAMT)</h4>
-        <ul><li>Sleep hours & efficiency</li><li>HRV (RMSSD) via PPG</li><li>Deep sleep ratio</li></ul>
+
+    <!-- Top layer: Data Sources -->
+    <div style="display:flex; gap:16px; justify-content:center; margin-bottom:6px; flex-wrap:wrap;">
+      <div class="arch-box" style="border-color:rgba(33,150,243,0.3); min-width:220px;">
+        <h4 style="color:#2196F3; font-size:14px; margin-bottom:6px;">Wearable Layer</h4>
+        <div style="font-family:'Courier New',monospace; font-size:11px; color:#888; line-height:1.8;">
+          <div style="color:#2196F3; margin-bottom:2px;">Apple Watch / Fitbit / Garmin</div>
+          <div>> HealthKit / Health Connect API</div>
+          <div>> PPG sensor -> HR, HRV (RMSSD)</div>
+          <div>> Accelerometer -> sleep stages</div>
+          <div>> EDA, skin temp -> stress proxy</div>
+        </div>
+        <div style="margin-top:6px; font-size:10px; padding:4px 8px; background:rgba(33,150,243,0.08); border-radius:4px; color:#2196F3; font-family:monospace;">
+          Calibrated on DREAMT (PhysioNet, Duke)
+        </div>
       </div>
-      <div class="arch-box" style="border-color:rgba(255,62,62,0.3);">
-        <h4 style="color:#FF3E3E;">Rootly API + MCP</h4>
-        <ul><li>OCH score (0-100)</li><li>Incidents & severity</li><li>After-hours pages</li></ul>
+      <div class="arch-box" style="border-color:rgba(255,62,62,0.3); min-width:220px;">
+        <h4 style="color:#FF3E3E; font-size:14px; margin-bottom:6px;">Rootly Integration</h4>
+        <div style="font-family:'Courier New',monospace; font-size:11px; color:#888; line-height:1.8;">
+          <div style="color:#FF3E3E; margin-bottom:2px;">REST API + MCP Server</div>
+          <div>> GET /v1/incidents</div>
+          <div>> GET /v1/on_call_health (OCH 0-100)</div>
+          <div>> POST /v1/override_shifts</div>
+          <div>> MCP: get_oncall_handoff_summary</div>
+        </div>
+        <div style="margin-top:6px; font-size:10px; padding:4px 8px; background:rgba(255,62,62,0.08); border-radius:4px; color:#FF3E3E; font-family:monospace;">
+          101 MCP tools available
+        </div>
       </div>
     </div>
-    <div class="arch-arrow">&#x25BC;<br><span>SIGNAL FUSION</span></div>
-    <div class="arch-fusion">
-      <h4 style="color:#00FF41; font-size:15px; margin-bottom:4px;">Resilience Engine</h4>
-      <div style="font-family:monospace; font-size:13px; color:#FFAB00; background:rgba(255,171,0,0.06); padding:8px; border-radius:6px;">
-        recoveryDebt = OCH - f(sleep, efficiency, HRV)
+
+    <!-- Arrow -->
+    <div style="text-align:center; color:#444; font-size:14px; margin:4px 0;">
+      &#x25BC; &#x25BC;<br>
+      <span style="font-size:10px; color:#555; font-family:'Courier New',monospace; letter-spacing:2px;">SIGNAL FUSION</span>
+    </div>
+
+    <!-- Middle: Backend -->
+    <div style="display:flex; gap:16px; justify-content:center; margin-bottom:6px; flex-wrap:wrap;">
+      <div style="border:2px solid rgba(255,171,0,0.3); border-radius:12px; padding:14px 20px; background:linear-gradient(135deg, #1A1A1A 0%, #1A1A0D 100%); min-width:220px; max-width:280px; flex:1;">
+        <h4 style="color:#FFAB00; font-size:13px; margin-bottom:6px;">Resilience Engine</h4>
+        <div style="font-family:'Courier New',monospace; font-size:11px; color:#888; line-height:1.8;">
+          <div style="color:#FFAB00;">Node.js / Express (port 3001)</div>
+          <div>> computeBiologicalScore(sleep, hrv)</div>
+          <div>> computeRecoveryDebt(och, bio)</div>
+          <div>> classifyState() -> STABLE|WARN|CRIT</div>
+          <div>> mapIncidentsToBiologicalImpact()</div>
+        </div>
+        <div style="margin-top:6px; font-size:10px; padding:4px 8px; background:rgba(255,171,0,0.06); border-radius:4px; color:#FFAB00; font-family:monospace;">
+          composite = 0.6*OCH + 0.4*sleepRisk (1.3x interaction)
+        </div>
+      </div>
+      <div style="border:2px solid rgba(0,255,65,0.3); border-radius:12px; padding:14px 20px; background:linear-gradient(135deg, #1A1A1A 0%, #0D1A0D 100%); min-width:220px; max-width:280px; flex:1;">
+        <h4 style="color:#00FF41; font-size:13px; margin-bottom:6px;">Claude API</h4>
+        <div style="font-family:'Courier New',monospace; font-size:11px; color:#888; line-height:1.8;">
+          <div style="color:#00FF41;">Anthropic SDK</div>
+          <div>> Handoff summary generation</div>
+          <div>> Incident context synthesis</div>
+          <div>> Recovery insight text</div>
+          <div>> Natural language recommendations</div>
+        </div>
+        <div style="margin-top:6px; font-size:10px; padding:4px 8px; background:rgba(0,255,65,0.06); border-radius:4px; color:#00FF41; font-family:monospace;">
+          Powers Circuit Breaker actions
+        </div>
       </div>
     </div>
-    <div class="arch-arrow">&#x25BC;</div>
-    <div class="arch-screens">
-      <div class="arch-screen"><div style="font-size:16px;">&#x1F4CA;</div><div class="sname">Dashboard</div></div>
-      <div class="arch-screen"><div style="font-size:16px;">&#x1F4C5;</div><div class="sname">Timeline</div></div>
-      <div class="arch-screen"><div style="font-size:16px;">&#x1F6E1;</div><div class="sname">Breaker</div></div>
-      <div class="arch-screen"><div style="font-size:16px;">&#x1F9D8;</div><div class="sname">Recovery</div></div>
+
+    <!-- Arrow -->
+    <div style="text-align:center; color:#444; font-size:14px; margin:4px 0;">
+      &#x25BC;<br>
+      <span style="font-size:10px; color:#555; font-family:'Courier New',monospace; letter-spacing:2px;">REST API (9 ENDPOINTS)</span>
     </div>
-    <p style="font-size:13px; color:#555; margin-top:12px; text-align:center; font-family:monospace;">
-      Flutter + Node.js/Express + Rootly REST/MCP + DREAMT (PhysioNet, Duke University) + Claude
-    </p>
+
+    <!-- Bottom: Flutter App -->
+    <div style="border:1px solid #333; border-radius:12px; padding:14px 20px; background:#1A1A1A; max-width:620px; margin:0 auto;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+        <h4 style="color:#00C853; font-size:13px;">Flutter App</h4>
+        <span style="font-size:10px; font-family:monospace; color:#555;">Dart / iOS / Android</span>
+        <span style="font-size:10px; font-family:monospace; color:#555; margin-left:auto;">Provider state mgmt</span>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <div style="background:#111; border:1px solid #2A2A2A; border-radius:6px; padding:8px 12px; flex:1; min-width:100px; text-align:center;">
+          <div style="font-size:13px;">&#x1F4CA;</div>
+          <div style="font-size:10px; color:#00FF41; font-family:monospace;">Dashboard</div>
+          <div style="font-size:9px; color:#555; font-family:monospace;">gauge + sparkline</div>
+        </div>
+        <div style="background:#111; border:1px solid #2A2A2A; border-radius:6px; padding:8px 12px; flex:1; min-width:100px; text-align:center;">
+          <div style="font-size:13px;">&#x1F4C5;</div>
+          <div style="font-size:10px; color:#00FF41; font-family:monospace;">Timeline</div>
+          <div style="font-size:9px; color:#555; font-family:monospace;">incident x bio cost</div>
+        </div>
+        <div style="background:#111; border:1px solid #2A2A2A; border-radius:6px; padding:8px 12px; flex:1; min-width:100px; text-align:center;">
+          <div style="font-size:13px;">&#x1F6E1;</div>
+          <div style="font-size:10px; color:#FF3E3E; font-family:monospace;">Breaker</div>
+          <div style="font-size:9px; color:#555; font-family:monospace;">4 Rootly actions</div>
+        </div>
+        <div style="background:#111; border:1px solid #2A2A2A; border-radius:6px; padding:8px 12px; flex:1; min-width:100px; text-align:center;">
+          <div style="font-size:13px;">&#x231A;</div>
+          <div style="font-size:10px; color:#2196F3; font-family:monospace;">Wearable</div>
+          <div style="font-size:9px; color:#555; font-family:monospace;">device pairing</div>
+        </div>
+        <div style="background:#111; border:1px solid #2A2A2A; border-radius:6px; padding:8px 12px; flex:1; min-width:100px; text-align:center;">
+          <div style="font-size:13px;">&#x1F9D8;</div>
+          <div style="font-size:10px; color:#00FF41; font-family:monospace;">Recovery</div>
+          <div style="font-size:9px; color:#555; font-family:monospace;">breathe + journal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy footer -->
+    <div style="display:flex; gap:20px; justify-content:center; margin-top:10px; font-family:'Courier New',monospace; font-size:10px; color:#555; flex-wrap:wrap;">
+      <span style="color:#00C853;">&#x1F512; health data on-device only</span>
+      <span>&#x2022;</span>
+      <span>SQLite local storage</span>
+      <span>&#x2022;</span>
+      <span>only aggregate scores shared (opt-in)</span>
+    </div>
+
     <div class="speaker-note">
-      <strong>~40s.</strong> "Here's how it works. Two data sources flow in. On the left, smartwatch data - sleep hours, sleep efficiency, heart rate variability. We use the DREAMT dataset from Duke University as our baseline, 100 participants with clinically validated sleep data from consumer-grade wearables. On the right, Rootly's API - OCH score, incidents, severity, after-hours pages. These fuse in our Resilience Engine which computes recovery debt and outputs to four screens in our Flutter app."
+      <strong>~40s.</strong> "Here's the full technical stack. Two data sources at the top. On the left, wearable sensors - Apple Watch, Fitbit, Garmin - giving us sleep and HRV data calibrated against the DREAMT clinical dataset from Duke. On the right, Rootly REST API and MCP server - incidents, OCH scores, and 101 tools for workflow automation. These fuse in our Resilience Engine, a Node.js service that computes recovery debt using a weighted composite with a non-linear interaction term. Claude API powers the intelligent handoff generation. Everything flows down to our Flutter app with five screens. Health data stays on-device, only aggregate scores are shared."
     </div>
   </section>
 
