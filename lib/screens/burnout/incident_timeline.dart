@@ -12,7 +12,7 @@ class IncidentTimeline extends StatelessWidget {
     final sleepData = MockWellnessService.getWeeklySleep();
 
     return Scaffold(
-      backgroundColor: ObsTheme.bg,
+      backgroundColor: ObsTheme.bgOf(context),
       appBar: AppBar(
         title: const Text('Incident × Biology'),
       ),
@@ -63,7 +63,7 @@ class _IncidentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sevColor = incident.severityNum <= 1 ? ObsTheme.critical :
-                     incident.severityNum == 2 ? ObsTheme.warning : ObsTheme.safe;
+                     incident.severityNum == 2 ? ObsTheme.warning : ObsTheme.safeOf(context);
 
     return IntrinsicHeight(
       child: Row(
@@ -92,7 +92,7 @@ class _IncidentCard extends StatelessWidget {
                   Expanded(
                     child: Container(
                       width: 1,
-                      color: ObsTheme.border,
+                      color: ObsTheme.borderOf(context),
                     ),
                   ),
               ],
@@ -104,8 +104,8 @@ class _IncidentCard extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 16),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ObsTheme.surface,
-                border: Border.all(color: ObsTheme.border),
+                color: ObsTheme.surfaceOf(context),
+                border: Border.all(color: ObsTheme.borderOf(context)),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -136,7 +136,7 @@ class _IncidentCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontFamily: 'Courier',
-                          color: ObsTheme.textMuted,
+                          color: ObsTheme.textMutedOf(context),
                         ),
                       ),
                       const Spacer(),
@@ -171,7 +171,7 @@ class _IncidentCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: ObsTheme.textPrimary,
+                      color: ObsTheme.textPrimaryOf(context),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -180,7 +180,7 @@ class _IncidentCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 11,
                       fontFamily: 'Courier',
-                      color: ObsTheme.textMuted,
+                      color: ObsTheme.textMutedOf(context),
                     ),
                   ),
                   if (incident.mttr != null) ...[
@@ -190,7 +190,7 @@ class _IncidentCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 11,
                         fontFamily: 'Courier',
-                        color: ObsTheme.textSecondary,
+                        color: ObsTheme.textSecondaryOf(context),
                       ),
                     ),
                   ],
@@ -201,12 +201,12 @@ class _IncidentCard extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: ObsTheme.bg,
+                      color: ObsTheme.bgOf(context),
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(
                         color: incident.biologicalCostHours > 24
                             ? ObsTheme.critical.withValues(alpha: 0.3)
-                            : ObsTheme.border,
+                            : ObsTheme.borderOf(context),
                       ),
                     ),
                     child: Column(
@@ -218,7 +218,7 @@ class _IncidentCard extends StatelessWidget {
                             fontSize: 9,
                             fontFamily: 'Courier',
                             letterSpacing: 1,
-                            color: ObsTheme.textMuted,
+                            color: ObsTheme.textMutedOf(context),
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -328,7 +328,7 @@ class _SleepMini extends StatelessWidget {
             fontSize: 8,
             fontFamily: 'Courier',
             letterSpacing: 0.5,
-            color: ObsTheme.textMuted,
+            color: ObsTheme.textMutedOf(context),
           ),
         ),
         Text(
@@ -337,7 +337,7 @@ class _SleepMini extends StatelessWidget {
             fontSize: 12,
             fontWeight: FontWeight.bold,
             fontFamily: 'Courier',
-            color: bad ? ObsTheme.critical : ObsTheme.safe,
+            color: bad ? ObsTheme.critical : ObsTheme.safeOf(context),
           ),
         ),
       ],

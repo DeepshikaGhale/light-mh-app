@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../theme/obs_theme.dart';
 import '../../models/rootly_models.dart';
+import '../../services/app_state.dart';
 import '../../services/mock_rootly_service.dart';
 import 'incident_timeline.dart';
 import 'circuit_breaker.dart';
@@ -17,7 +19,7 @@ class BurnoutDashboard extends StatelessWidget {
     final sleepHistory = MockWellnessService.getWeeklySleep();
 
     return Scaffold(
-      backgroundColor: ObsTheme.bg,
+      backgroundColor: ObsTheme.bgOf(context),
       appBar: AppBar(
         title: Row(
           children: [
@@ -25,7 +27,7 @@ class BurnoutDashboard extends StatelessWidget {
               width: 8,
               height: 8,
               decoration: BoxDecoration(
-                color: delta.inDebt ? ObsTheme.critical : ObsTheme.safe,
+                color: delta.inDebt ? ObsTheme.critical : ObsTheme.safeOf(context),
                 shape: BoxShape.circle,
               ),
             ),
@@ -37,12 +39,21 @@ class BurnoutDashboard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 10,
                 fontFamily: 'Courier',
-                color: ObsTheme.safe,
+                color: ObsTheme.safeOf(context),
                 letterSpacing: 2,
               ),
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              ObsTheme.isDark(context) ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+              size: 20,
+            ),
+            onPressed: () => context.read<AppState>().toggleTheme(),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -95,6 +106,7 @@ class BurnoutDashboard extends StatelessWidget {
                     compositeScore: delta.compositeScore,
                     ochScore: delta.ochScore,
                     sleepRisk: delta.sleepRisk,
+                    borderColor: ObsTheme.borderOf(context),
                   ),
                   child: Center(
                     child: Column(
@@ -106,7 +118,7 @@ class BurnoutDashboard extends StatelessWidget {
                             fontSize: 42,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Courier',
-                            color: delta.inDebt ? ObsTheme.critical : ObsTheme.safe,
+                            color: delta.inDebt ? ObsTheme.critical : ObsTheme.safeOf(context),
                           ),
                         ),
                         Text(
@@ -114,7 +126,7 @@ class BurnoutDashboard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 10,
                             letterSpacing: 2,
-                            color: ObsTheme.textSecondary,
+                            color: ObsTheme.textSecondaryOf(context),
                             fontFamily: 'Courier',
                           ),
                         ),
@@ -171,12 +183,12 @@ class BurnoutDashboard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: ObsTheme.surface,
-                border: Border.all(color: ObsTheme.border),
+                color: ObsTheme.surfaceOf(context),
+                border: Border.all(color: ObsTheme.borderOf(context)),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: CustomPaint(
-                painter: _SleepSparklinePainter(sleepHistory),
+                painter: _SleepSparklinePainter(sleepHistory, safeColor: ObsTheme.safeOf(context)),
               ),
             ),
             const SizedBox(height: 20),
@@ -190,8 +202,8 @@ class BurnoutDashboard extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: ObsTheme.surface,
-                  border: Border.all(color: ObsTheme.border),
+                  color: ObsTheme.surfaceOf(context),
+                  border: Border.all(color: ObsTheme.borderOf(context)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -203,7 +215,7 @@ class BurnoutDashboard extends StatelessWidget {
                         insight,
                         style: TextStyle(
                           fontSize: 12,
-                          color: ObsTheme.textSecondary,
+                          color: ObsTheme.textSecondaryOf(context),
                           height: 1.4,
                         ),
                       ),
@@ -223,15 +235,15 @@ class BurnoutDashboard extends StatelessWidget {
               children: och.riskFactors.map((f) => Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: ObsTheme.surfaceLight,
-                  border: Border.all(color: ObsTheme.border),
+                  color: ObsTheme.surfaceLightOf(context),
+                  border: Border.all(color: ObsTheme.borderOf(context)),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
                   f,
                   style: TextStyle(
                     fontSize: 11,
-                    color: ObsTheme.textSecondary,
+                    color: ObsTheme.textSecondaryOf(context),
                     fontFamily: 'Courier',
                   ),
                 ),
@@ -282,7 +294,7 @@ class _SectionHeader extends StatelessWidget {
         fontSize: 11,
         fontWeight: FontWeight.w600,
         letterSpacing: 1.5,
-        color: ObsTheme.textMuted,
+        color: ObsTheme.textMutedOf(context),
         fontFamily: 'Courier',
       ),
     );
@@ -309,8 +321,8 @@ class _MetricTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ObsTheme.surface,
-        border: Border.all(color: ObsTheme.border),
+        color: ObsTheme.surfaceOf(context),
+        border: Border.all(color: ObsTheme.borderOf(context)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -321,7 +333,7 @@ class _MetricTile extends StatelessWidget {
             style: TextStyle(
               fontSize: 10,
               letterSpacing: 1,
-              color: ObsTheme.textMuted,
+              color: ObsTheme.textMutedOf(context),
               fontFamily: 'Courier',
             ),
           ),
@@ -344,7 +356,7 @@ class _MetricTile extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: 'Courier',
-                    color: trend!.startsWith('-') ? ObsTheme.critical : ObsTheme.safe,
+                    color: trend!.startsWith('-') ? ObsTheme.critical : ObsTheme.safeOf(context),
                   ),
                 ),
               ],
@@ -352,7 +364,7 @@ class _MetricTile extends StatelessWidget {
           ),
           Text(
             subtitle,
-            style: TextStyle(fontSize: 11, color: ObsTheme.textSecondary),
+            style: TextStyle(fontSize: 11, color: ObsTheme.textSecondaryOf(context)),
           ),
         ],
       ),
@@ -372,8 +384,8 @@ class _MiniStat extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12),
         margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
-          color: ObsTheme.surface,
-          border: Border.all(color: ObsTheme.border),
+          color: ObsTheme.surfaceOf(context),
+          border: Border.all(color: ObsTheme.borderOf(context)),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -384,7 +396,7 @@ class _MiniStat extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Courier',
-                color: ObsTheme.textPrimary,
+                color: ObsTheme.textPrimaryOf(context),
               ),
             ),
             Text(
@@ -393,7 +405,7 @@ class _MiniStat extends StatelessWidget {
                 fontSize: 8,
                 letterSpacing: 1,
                 fontFamily: 'Courier',
-                color: ObsTheme.textMuted,
+                color: ObsTheme.textMutedOf(context),
               ),
             ),
           ],
@@ -454,11 +466,13 @@ class _ResilienceGaugePainter extends CustomPainter {
   final int compositeScore;
   final int ochScore;
   final int sleepRisk;
+  final Color borderColor;
 
   _ResilienceGaugePainter({
     required this.compositeScore,
     required this.ochScore,
     required this.sleepRisk,
+    required this.borderColor,
   });
 
   @override
@@ -468,7 +482,7 @@ class _ResilienceGaugePainter extends CustomPainter {
 
     // Background ring
     final bgPaint = Paint()
-      ..color = ObsTheme.border
+      ..color = borderColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 8;
     canvas.drawArc(
@@ -516,7 +530,8 @@ class _ResilienceGaugePainter extends CustomPainter {
 
 class _SleepSparklinePainter extends CustomPainter {
   final List<SleepMetrics> data;
-  _SleepSparklinePainter(this.data);
+  final Color safeColor;
+  _SleepSparklinePainter(this.data, {required this.safeColor});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -563,13 +578,13 @@ class _SleepSparklinePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [ObsTheme.safe.withValues(alpha: 0.15), ObsTheme.safe.withValues(alpha: 0.0)],
+        colors: [safeColor.withValues(alpha: 0.15), safeColor.withValues(alpha: 0.0)],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawPath(fillPath, fillPaint);
 
     // Line
     final linePaint = Paint()
-      ..color = ObsTheme.safe
+      ..color = safeColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
@@ -579,7 +594,7 @@ class _SleepSparklinePainter extends CustomPainter {
     for (int i = 0; i < data.length; i++) {
       final x = (i / (data.length - 1)) * size.width;
       final y = size.height - ((data[i].sleepEfficiency - minEff) / range) * size.height;
-      final dotColor = data[i].sleepEfficiency < 85 ? ObsTheme.critical : ObsTheme.safe;
+      final dotColor = data[i].sleepEfficiency < 85 ? ObsTheme.critical : safeColor;
       canvas.drawCircle(Offset(x, y), 3, Paint()..color = dotColor);
     }
   }

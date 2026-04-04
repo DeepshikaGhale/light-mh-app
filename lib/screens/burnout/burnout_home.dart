@@ -31,27 +31,27 @@ class _BurnoutHomeState extends State<BurnoutHome> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (i) => setState(() => _currentIndex = i),
-        backgroundColor: ObsTheme.surface,
-        indicatorColor: ObsTheme.safe.withValues(alpha: 0.12),
-        destinations: const [
+        backgroundColor: ObsTheme.surfaceOf(context),
+        indicatorColor: ObsTheme.safeOf(context).withValues(alpha: 0.12),
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.dashboard_outlined, color: ObsTheme.textSecondary),
-            selectedIcon: Icon(Icons.dashboard, color: ObsTheme.safe),
+            icon: Icon(Icons.dashboard_outlined, color: ObsTheme.textSecondaryOf(context)),
+            selectedIcon: Icon(Icons.dashboard, color: ObsTheme.safeOf(context)),
             label: 'Dashboard',
           ),
           NavigationDestination(
-            icon: Icon(Icons.timeline_outlined, color: ObsTheme.textSecondary),
-            selectedIcon: Icon(Icons.timeline, color: ObsTheme.safe),
+            icon: Icon(Icons.timeline_outlined, color: ObsTheme.textSecondaryOf(context)),
+            selectedIcon: Icon(Icons.timeline, color: ObsTheme.safeOf(context)),
             label: 'Timeline',
           ),
           NavigationDestination(
-            icon: Icon(Icons.shield_outlined, color: ObsTheme.textSecondary),
+            icon: Icon(Icons.shield_outlined, color: ObsTheme.textSecondaryOf(context)),
             selectedIcon: Icon(Icons.shield, color: ObsTheme.critical),
             label: 'Breaker',
           ),
           NavigationDestination(
-            icon: Icon(Icons.self_improvement_outlined, color: ObsTheme.textSecondary),
-            selectedIcon: Icon(Icons.self_improvement, color: ObsTheme.safe),
+            icon: Icon(Icons.self_improvement_outlined, color: ObsTheme.textSecondaryOf(context)),
+            selectedIcon: Icon(Icons.self_improvement, color: ObsTheme.safeOf(context)),
             label: 'Recovery',
           ),
         ],
@@ -69,7 +69,7 @@ class _RecoveryScreen extends StatelessWidget {
     final delta = MockWellnessService.computeResilienceDelta();
 
     return Scaffold(
-      backgroundColor: ObsTheme.bg,
+      backgroundColor: ObsTheme.bgOf(context),
       appBar: AppBar(title: const Text('Recovery Mode')),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -80,8 +80,8 @@ class _RecoveryScreen extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ObsTheme.safe.withValues(alpha: 0.06),
-                border: Border.all(color: ObsTheme.safe.withValues(alpha: 0.2)),
+                color: ObsTheme.safeOf(context).withValues(alpha: 0.06),
+                border: Border.all(color: ObsTheme.safeOf(context).withValues(alpha: 0.2)),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -94,7 +94,7 @@ class _RecoveryScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Courier',
                       letterSpacing: 1,
-                      color: ObsTheme.safe,
+                      color: ObsTheme.safeOf(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -103,7 +103,7 @@ class _RecoveryScreen extends StatelessWidget {
                     'These exercises help your nervous system recover from high-stress on-call shifts.',
                     style: TextStyle(
                       fontSize: 13,
-                      color: ObsTheme.textSecondary,
+                      color: ObsTheme.textSecondaryOf(context),
                       height: 1.4,
                     ),
                   ),
@@ -144,8 +144,8 @@ class _RecoveryScreen extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
-                    backgroundColor: ObsTheme.surface,
-                    title: Text('Sleep Coach', style: TextStyle(color: ObsTheme.textPrimary)),
+                    backgroundColor: ObsTheme.surfaceOf(context),
+                    title: Text('Sleep Coach', style: TextStyle(color: ObsTheme.textPrimaryOf(context))),
                     content: Text(
                       'Based on DREAMT sleep patterns:\n\n'
                       '• Your sleep efficiency has been below 85% for 4 days\n'
@@ -157,7 +157,7 @@ class _RecoveryScreen extends StatelessWidget {
                       '→ Room temp to 65-67°F\n'
                       '→ If paged tonight, request backup after resolution',
                       style: TextStyle(
-                        color: ObsTheme.textSecondary,
+                        color: ObsTheme.textSecondaryOf(context),
                         fontFamily: 'Courier',
                         fontSize: 12,
                         height: 1.5,
@@ -166,7 +166,7 @@ class _RecoveryScreen extends StatelessWidget {
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
-                        child: Text('Got it', style: TextStyle(color: ObsTheme.safe)),
+                        child: Text('Got it', style: TextStyle(color: ObsTheme.safeOf(context))),
                       ),
                     ],
                   ),
@@ -181,8 +181,8 @@ class _RecoveryScreen extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ObsTheme.surface,
-                border: Border.all(color: ObsTheme.border),
+                color: ObsTheme.surfaceOf(context),
+                border: Border.all(color: ObsTheme.borderOf(context)),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -193,7 +193,7 @@ class _RecoveryScreen extends StatelessWidget {
                       fontSize: 10,
                       fontFamily: 'Courier',
                       letterSpacing: 1,
-                      color: ObsTheme.textMuted,
+                      color: ObsTheme.textMutedOf(context),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -211,7 +211,7 @@ class _RecoveryScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Icon(Icons.arrow_forward, color: ObsTheme.textMuted, size: 20),
+                        child: Icon(Icons.arrow_forward, color: ObsTheme.textMutedOf(context), size: 20),
                       ),
                       Text(
                         '< 25',
@@ -219,7 +219,7 @@ class _RecoveryScreen extends StatelessWidget {
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Courier',
-                          color: ObsTheme.safe,
+                          color: ObsTheme.safeOf(context),
                         ),
                       ),
                     ],
@@ -229,7 +229,7 @@ class _RecoveryScreen extends StatelessWidget {
                     'Est. ${((delta.compositeScore - 25) / 8).ceil()} days to full recovery with active intervention',
                     style: TextStyle(
                       fontSize: 11,
-                      color: ObsTheme.textSecondary,
+                      color: ObsTheme.textSecondaryOf(context),
                     ),
                   ),
                 ],
@@ -267,8 +267,8 @@ class _RecoveryTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ObsTheme.surface,
-          border: Border.all(color: ObsTheme.border),
+          color: ObsTheme.surfaceOf(context),
+          border: Border.all(color: ObsTheme.borderOf(context)),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -276,10 +276,10 @@ class _RecoveryTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: ObsTheme.safe.withValues(alpha: 0.1),
+                color: ObsTheme.safeOf(context).withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: ObsTheme.safe, size: 24),
+              child: Icon(icon, color: ObsTheme.safeOf(context), size: 24),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -291,7 +291,7 @@ class _RecoveryTile extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: ObsTheme.textPrimary,
+                      color: ObsTheme.textPrimaryOf(context),
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -299,7 +299,7 @@ class _RecoveryTile extends StatelessWidget {
                     subtitle,
                     style: TextStyle(
                       fontSize: 11,
-                      color: ObsTheme.textSecondary,
+                      color: ObsTheme.textSecondaryOf(context),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -308,13 +308,13 @@ class _RecoveryTile extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 10,
                       fontFamily: 'Courier',
-                      color: metricBad ? ObsTheme.critical : ObsTheme.textMuted,
+                      color: metricBad ? ObsTheme.critical : ObsTheme.textMutedOf(context),
                     ),
                   ),
                 ],
               ),
             ),
-            Icon(Icons.chevron_right, color: ObsTheme.textMuted, size: 20),
+            Icon(Icons.chevron_right, color: ObsTheme.textMutedOf(context), size: 20),
           ],
         ),
       ),

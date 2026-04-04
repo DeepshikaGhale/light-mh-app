@@ -8,6 +8,20 @@ class AppState extends ChangeNotifier {
   bool onboardingComplete = false;
   List<String> selectedConcerns = [];
 
+  // Theme
+  ThemeMode themeMode = ThemeMode.dark; // default dark for observability look
+  bool get isDarkMode => themeMode == ThemeMode.dark;
+
+  void toggleTheme() {
+    themeMode = isDarkMode ? ThemeMode.light : ThemeMode.dark;
+    notifyListeners();
+  }
+
+  void setThemeMode(ThemeMode mode) {
+    themeMode = mode;
+    notifyListeners();
+  }
+
   // Mood
   final List<MoodEntry> moodEntries = [];
 

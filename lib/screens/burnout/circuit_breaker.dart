@@ -21,7 +21,7 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
     final delta = MockWellnessService.computeResilienceDelta();
 
     return Scaffold(
-      backgroundColor: ObsTheme.bg,
+      backgroundColor: ObsTheme.bgOf(context),
       appBar: AppBar(
         title: const Text('Circuit Breaker'),
       ),
@@ -64,7 +64,7 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
                     'step away safely without dropping the ball.',
                     style: TextStyle(
                       fontSize: 13,
-                      color: ObsTheme.textSecondary,
+                      color: ObsTheme.textSecondaryOf(context),
                       height: 1.4,
                     ),
                   ),
@@ -100,8 +100,8 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: ObsTheme.surface,
-                  border: Border.all(color: ObsTheme.safe.withValues(alpha: 0.3)),
+                  color: ObsTheme.surfaceOf(context),
+                  border: Border.all(color: ObsTheme.safeOf(context).withValues(alpha: 0.3)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
@@ -109,7 +109,7 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.check_circle, color: ObsTheme.safe, size: 16),
+                        Icon(Icons.check_circle, color: ObsTheme.safeOf(context), size: 16),
                         const SizedBox(width: 8),
                         Text(
                           'HANDOFF READY',
@@ -118,7 +118,7 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Courier',
                             letterSpacing: 1,
-                            color: ObsTheme.safe,
+                            color: ObsTheme.safeOf(context),
                           ),
                         ),
                         const Spacer(),
@@ -127,14 +127,14 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: const Text('Copied to clipboard'),
-                                backgroundColor: ObsTheme.surface,
+                                backgroundColor: ObsTheme.surfaceOf(context),
                               ),
                             );
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              border: Border.all(color: ObsTheme.border),
+                              border: Border.all(color: ObsTheme.borderOf(context)),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
@@ -155,7 +155,7 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
                       style: TextStyle(
                         fontSize: 12,
                         fontFamily: 'Courier',
-                        color: ObsTheme.textSecondary,
+                        color: ObsTheme.textSecondaryOf(context),
                         height: 1.5,
                       ),
                     ),
@@ -179,12 +179,12 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
                   SnackBar(
                     content: Row(
                       children: [
-                        Icon(Icons.check, color: ObsTheme.safe, size: 16),
+                        Icon(Icons.check, color: ObsTheme.safeOf(context), size: 16),
                         const SizedBox(width: 8),
                         const Text('Override requested. Sarah K. notified.'),
                       ],
                     ),
-                    backgroundColor: ObsTheme.surface,
+                    backgroundColor: ObsTheme.surfaceOf(context),
                   ),
                 );
               },
@@ -210,7 +210,7 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
                         const Text('Non-critical alerts silenced for 4 hours.'),
                       ],
                     ),
-                    backgroundColor: ObsTheme.surface,
+                    backgroundColor: ObsTheme.surfaceOf(context),
                   ),
                 );
               },
@@ -230,17 +230,17 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
                 showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
-                    backgroundColor: ObsTheme.surface,
+                    backgroundColor: ObsTheme.surfaceOf(context),
                     title: Text('Confirm Escalation',
-                      style: TextStyle(color: ObsTheme.textPrimary)),
+                      style: TextStyle(color: ObsTheme.textPrimaryOf(context))),
                     content: Text(
                       'This will page Marcus T. as your backup and move you to secondary. Proceed?',
-                      style: TextStyle(color: ObsTheme.textSecondary),
+                      style: TextStyle(color: ObsTheme.textSecondaryOf(context)),
                     ),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
-                        child: Text('Cancel', style: TextStyle(color: ObsTheme.textMuted)),
+                        child: Text('Cancel', style: TextStyle(color: ObsTheme.textMutedOf(context))),
                       ),
                       TextButton(
                         onPressed: () {
@@ -261,19 +261,19 @@ class _CircuitBreakerState extends State<CircuitBreaker> {
               width: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: ObsTheme.surface,
+                color: ObsTheme.surfaceOf(context),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.lock_outline, size: 14, color: ObsTheme.textMuted),
+                  Icon(Icons.lock_outline, size: 14, color: ObsTheme.textMutedOf(context)),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       'Only your availability status is shared. Raw health data stays on-device.',
                       style: TextStyle(
                         fontSize: 11,
-                        color: ObsTheme.textMuted,
+                        color: ObsTheme.textMutedOf(context),
                       ),
                     ),
                   ),
@@ -319,9 +319,9 @@ class _ActionCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ObsTheme.surface,
+        color: ObsTheme.surfaceOf(context),
         border: Border.all(
-          color: completed ? ObsTheme.safe.withValues(alpha: 0.3) : ObsTheme.border,
+          color: completed ? ObsTheme.safeOf(context).withValues(alpha: 0.3) : ObsTheme.borderOf(context),
         ),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -330,7 +330,7 @@ class _ActionCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: completed ? ObsTheme.safe : c, size: 20),
+              Icon(icon, color: completed ? ObsTheme.safeOf(context) : c, size: 20),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -338,12 +338,12 @@ class _ActionCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: ObsTheme.textPrimary,
+                    color: ObsTheme.textPrimaryOf(context),
                   ),
                 ),
               ),
               if (completed)
-                Icon(Icons.check_circle, color: ObsTheme.safe, size: 18),
+                Icon(Icons.check_circle, color: ObsTheme.safeOf(context), size: 18),
             ],
           ),
           const SizedBox(height: 8),
@@ -351,7 +351,7 @@ class _ActionCard extends StatelessWidget {
             description,
             style: TextStyle(
               fontSize: 12,
-              color: ObsTheme.textSecondary,
+              color: ObsTheme.textSecondaryOf(context),
               height: 1.4,
             ),
           ),
@@ -361,7 +361,7 @@ class _ActionCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 9,
               fontFamily: 'Courier',
-              color: ObsTheme.textMuted,
+              color: ObsTheme.textMutedOf(context),
               letterSpacing: 0.5,
             ),
           ),
@@ -374,11 +374,11 @@ class _ActionCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
                   color: completed
-                      ? ObsTheme.safe.withValues(alpha: 0.1)
+                      ? ObsTheme.safeOf(context).withValues(alpha: 0.1)
                       : c.withValues(alpha: 0.1),
                   border: Border.all(
                     color: completed
-                        ? ObsTheme.safe.withValues(alpha: 0.3)
+                        ? ObsTheme.safeOf(context).withValues(alpha: 0.3)
                         : c.withValues(alpha: 0.3),
                   ),
                   borderRadius: BorderRadius.circular(6),
@@ -400,7 +400,7 @@ class _ActionCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Courier',
                             letterSpacing: 1,
-                            color: completed ? ObsTheme.safe : c,
+                            color: completed ? ObsTheme.safeOf(context) : c,
                           ),
                         ),
                 ),
