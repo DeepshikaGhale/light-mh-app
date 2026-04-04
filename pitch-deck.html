@@ -96,6 +96,26 @@
   .cta-slide { text-align: center; align-items: center; }
   .cta-slide blockquote { max-width: 700px; font-size: 22px; text-align: left; }
 
+  /* Speaker notes */
+  .speaker-note {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.85));
+    padding: 16px 80px 20px;
+    font-size: 14px; color: #FFAB00; line-height: 1.6;
+    font-family: 'Courier New', monospace;
+    border-top: 1px solid rgba(255,171,0,0.2);
+    display: none;
+  }
+  .speaker-note strong { color: #00FF41; }
+  .notes-visible .speaker-note { display: block; }
+  .notes-badge {
+    position: fixed; top: 12px; right: 60px; font-size: 10px;
+    font-family: 'Courier New', monospace; color: #333; z-index: 200;
+    padding: 4px 8px; border: 1px solid #222; border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .notes-visible .notes-badge { color: #FFAB00; border-color: rgba(255,171,0,0.3); }
+
   .kbd-hint { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 11px; color: #333; font-family: 'Courier New', monospace; z-index: 100; transition: opacity 0.5s; }
 
   @media (max-width: 768px) {
@@ -112,6 +132,7 @@
 
 <div class="progress" id="progress"></div>
 <nav class="nav" id="nav"></nav>
+<div class="notes-badge" id="notes-badge">press N for notes</div>
 <div class="kbd-hint" id="kbd-hint">scroll or arrow keys to navigate</div>
 
 <div class="deck" id="deck">
@@ -124,6 +145,9 @@
       Claude Builders Hackathon @ McGill - April 2026<br>
       Neuroscience &amp; Mental Health | Rootly Sub-Challenge
     </p>
+    <div class="speaker-note">
+      <strong>~10s.</strong> Just say the name and tagline. "Hi, we're Deepshika and Athif. We built Light - it makes recovery observable for incident responders."
+    </div>
   </section>
 
   <!-- 2: Problem + Insight (45s) -->
@@ -141,6 +165,9 @@
       <tr><td>Tells you</td><td>"You're paged too much"</td><td style="color:#00FF41">"You're not recovering"</td></tr>
     </table>
     <blockquote>"Two engineers can have identical workloads and completely different failure risk - because recovery is invisible."</blockquote>
+    <div class="speaker-note">
+      <strong>~45s.</strong> Walk through the table. "Rootly already does a great job measuring workload - incidents, pages, shift hours. But it stops at the keyboard. It doesn't know if the person behind the screen has recovered from the last incident. That's what Light measures - the recovery side. Because two people can have the same workload and completely different risk. The difference is recovery, and right now that's invisible."
+    </div>
   </section>
 
   <!-- 3: Recovery Debt (40s) -->
@@ -157,6 +184,9 @@
       <span class="state-badge state-red">CRITICAL &gt; 30</span>
     </div>
     <p style="margin-top:20px; font-size:22px; color:#FFAB00; font-weight:600;">This metric doesn't exist anywhere else.</p>
+    <div class="speaker-note">
+      <strong>~40s.</strong> "So we created Recovery Debt. It's simple: take Rootly's OCH score, which measures how heavy your workload is, and subtract a biological score we compute from sleep quality and heart rate variability. If the gap is small, you're stable. If it's growing, you're in warning. Over 30, you're in biological debt - your body can't repay what your schedule is taking. We track this over time, not just a snapshot. This metric doesn't exist anywhere else."
+    </div>
   </section>
 
   <!-- 4: Architecture (40s) -->
@@ -190,6 +220,9 @@
     <p style="font-size:13px; color:#555; margin-top:12px; text-align:center; font-family:monospace;">
       Flutter + Node.js/Express + Rootly REST/MCP + DREAMT (PhysioNet, Duke University) + Claude
     </p>
+    <div class="speaker-note">
+      <strong>~40s.</strong> "Here's how it works. Two data sources flow in. On the left, smartwatch data - sleep hours, sleep efficiency, heart rate variability. We use the DREAMT dataset from Duke University as our baseline, 100 participants with clinically validated sleep data from consumer-grade wearables. On the right, Rootly's API - OCH score, incidents, severity, after-hours pages. These fuse in our Resilience Engine which computes recovery debt and outputs to four screens in our Flutter app."
+    </div>
   </section>
 
   <!-- 5: Timeline - the killer slide (45s) -->
@@ -221,6 +254,9 @@
     </div>
     <blockquote>"INC-1838 (Sev0, 3AM) cost 64 hours of recovery. You've had 56 available. You're in deficit."</blockquote>
     <p><strong class="amber">After-hours incidents cost 1.5x more recovery.</strong></p>
+    <div class="speaker-note">
+      <strong>~45s. THIS IS YOUR STRONGEST SLIDE. Slow down here.</strong> "This is where it gets real. Every incident has a biological cost. Monday 2AM, a sev1 DB outage - that person's sleep efficiency dropped to 62%, and they needed 48 hours to recover. Wednesday daytime, a sev2 - sleep was fine, recovered in 4 hours. But Thursday 3AM, another sev1 - sleep efficiency 54%, and they never recovered. That's the key insight: after-hours incidents cost 1.5x more recovery. INC-1838, a sev0 at 3AM, cost 64 hours of biological recovery. The person only had 56 available. They're in deficit."
+    </div>
   </section>
 
   <!-- 6: Circuit Breaker (40s) -->
@@ -251,6 +287,9 @@
       </div>
     </div>
     <p style="margin-top:16px; font-size:20px;"><strong class="green">Makes it socially safe to step away.</strong> Backed by data, not "I feel tired."</p>
+    <div class="speaker-note">
+      <strong>~40s.</strong> "But we don't just show data. We close the loop. The Circuit Breaker gives you four actions, all through Rootly's API. Generate a smart handoff - AI writes a Slack-ready summary of your open incidents so someone can pick up where you left off. Request a shift override. Silence non-critical alerts. Or escalate to backup. The human stays in control - we generate recommendations, you approve. The point is: the handoff button makes it socially safe to step away. It's backed by objective biological data, not just 'I feel tired'."
+    </div>
   </section>
 
   <!-- 7: Privacy + Ethics (30s) -->
@@ -272,6 +311,9 @@
       <li>Signal is advisory, not authoritative - human approval for all actions</li>
       <li>DREAMT used as proxy dataset, calibrated per user in production</li>
     </ul>
+    <div class="speaker-note">
+      <strong>~30s.</strong> "Quick note on privacy. All biological data - heart rate, sleep stages, HRV - stays on the phone. Never leaves the device. What gets shared, only if you opt in, is an aggregate readiness score. That's it. This system is designed to protect people, not evaluate their performance. It can't be used for reviews. All actions are advisory - you always approve."
+    </div>
   </section>
 
   <!-- 8: CTA (30s) -->
@@ -293,6 +335,9 @@
       <strong style="color:#00FF41; font-size:20px;">Deepshika Ghale</strong> &bull; <strong style="color:#CCC; font-size:20px;">Athif Shaffy</strong><br>
       <span style="font-size:15px; color:#888;">McGill University</span>
     </p>
+    <div class="speaker-note">
+      <strong>~30s.</strong> "We close the loop between incidents and recovery. Light makes recovery observable. It measures what Rootly can't see - the biological cost of every incident - and turns it into assisted relief before burnout happens. Next steps: live Rootly API in week 1, real wearable sync in week 2, and we'd love to explore building this as a Rootly plugin. Thank you."
+    </div>
   </section>
 
 </div>
@@ -322,6 +367,7 @@
     const idx = Math.round(deck.scrollTop / deck.clientHeight);
     if ((e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') && idx < slides.length - 1) { e.preventDefault(); slides[idx + 1].scrollIntoView({ behavior: 'smooth' }); }
     if ((e.key === 'ArrowUp' || e.key === 'PageUp') && idx > 0) { e.preventDefault(); slides[idx - 1].scrollIntoView({ behavior: 'smooth' }); }
+    if (e.key === 'n' || e.key === 'N') { document.body.classList.toggle('notes-visible'); }
   });
 </script>
 </body>
