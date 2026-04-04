@@ -71,7 +71,7 @@ class _RecoveryScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: ObsTheme.bgOf(context),
       appBar: AppBar(title: const Text('Recovery Mode')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +174,7 @@ class _RecoveryScreen extends StatelessWidget {
               },
             ),
 
-            const Spacer(),
+            const SizedBox(height: 24),
 
             // Recovery target
             Container(
